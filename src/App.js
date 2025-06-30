@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import ChartView from './ChartView';
+
 
 const loadFromLocalStorage = (key) => {
   try {
@@ -47,6 +49,8 @@ function App() {
   const [activeOrders, setActiveOrders] = useState(() => loadFromLocalStorage('activeOrders'));
   const [completedOrders, setCompletedOrders] = useState(() => loadFromLocalStorage('completedOrders'));
   const [now, setNow] = useState(Date.now());
+  const [chartView, setChartView] = useState('bar'); // or 'line'
+
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -66,6 +70,8 @@ function App() {
   useEffect(() => {
     saveToLocalStorage('completedOrders', completedOrders);
   }, [completedOrders]);
+
+
 
   const addOrder = () => {
     if (!orderId.trim()) return;
@@ -112,6 +118,10 @@ function App() {
       (current.timeOut - current.timeIn) > (slowest.timeOut - slowest.timeIn) ? current : slowest
     );
   };
+
+
+
+
 
 
   return (
@@ -168,6 +178,15 @@ function App() {
           );
         })}
       </ul>
+
+
+
+      <h3>Order Completion Times (Minutes)</h3>
+      <button onClick={() => setChartView(chartView === 'bar' ? 'line' : 'bar')}>
+        Show {chartView === 'bar' ? 'Line' : 'Bar'} Chart
+      </button>
+
+      <ChartView completedOrders={completedOrders} chartView={chartView} />
 
 
       <button onClick={() => {
