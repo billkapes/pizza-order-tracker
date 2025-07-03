@@ -109,3 +109,11 @@ button.cancel:hover,
 button.remove:hover {
   background-color: #a71d2a;
 }
+
+button.restore {
+  background-color: #17a2b8;
+}
+
+button.restore:hover {
+  background-color: #138496;
+}

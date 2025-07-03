@@ -138,8 +138,10 @@ function App() {
     setConfirmDialog({ isOpen: false, message: '', onConfirm: null });
   };
 
-
-
+  const restoreToActive = (order) => {
+    setCompletedOrders(prev => prev.filter(o => o.id !== order.id));
+    setActiveOrders(prev => [...prev, { id: order.id, timeIn: order.timeIn }]);
+  };
 
   const handleUndo = () => {
     if (!undoInfo) return;
@@ -251,11 +253,16 @@ function App() {
                 </div>
                 <button
                   onClick={() => promptRemoveCompletedOrder(order)}
-                  style={{ backgroundColor: '#dc3545', marginTop: '0.3rem' }}
+                  className='remove'
                 >
                   Remove
                 </button>
-
+                <button
+                  onClick={() => restoreToActive(order)}
+                  className='restore'
+                >
+                  Restore to Active
+                </button>
               </li>
             );
           })}
